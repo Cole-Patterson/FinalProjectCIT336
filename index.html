@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Record Daily Lift</title>
+<style>
+body { background-color: #D8E3FF}
+#wrapper { text-align: center;
+			background-color: #365EC6;
+			width: 85%;
+			margin-right: auto;
+			margin-left: auto;
+			padding-bottom: 45px;
+			min-width: 900px;
+			max-width: 1280px;
+			box-shadow: 3px 3px 3px 3px #666666;}
+#form1 { display: inline-block; }
+h1 { color: #FEFEFE; }
+a { margin: 8px 0;
+	width: 84%;
+	}
+a:link, a:visited {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center; 
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: red;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #f44336;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: red;
+}
+
+</style>
+</head>
+<body>
+<div id="wrapper">
+<div id="form1">
+<h1> My Daily Lift </h1>
+<form method="post">
+    <p>
+        <label for="exerciseDate">Date:</label>
+        <input type="text" name="date" id="exerciseDate">
+    </p>
+	<p>
+        <label for="exerciseName">Exercise Name:</label>
+        <input type="text" name="exercise" id="exerciseName">
+    </p>
+    <p>
+        <label for="setNumber">Number of Sets:</label>
+        <input type="text" name="sets" id="setNumber">
+    </p>
+    <p>
+        <label for="repNumber">Number of Reps:</label>
+        <input type="text" name="reps" id="repNumber">
+    </p>
+	<p>
+        <label for="weightAmount">Weight(lbs):</label>
+        <input type="text" name="weight" id="weightAmount">
+    </p>
+    <input type="submit" value="Submit" onclick="addtoDB()">
+</form>
+<p id="submitted"></p>
+<a href="show_records.php">Show Records</a>
+<a href="goals.html">Set Goals</a>
+</div>
+</div>
+<script>
+// Database connection request
+function addtoDB() {
+  var xhttp; 
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+        document.getElementById("submitted").innerHTML = "form submitted";
+    }
+  };
+  // pulling values from the from labels
+  var exercise_date = document.getElementById('exerciseDate').value;
+  var exercise_name = document.getElementById('exerciseName').value;
+   var set_number = document.getElementById('setNumber').value;
+   var rep_number = document.getElementById('repNumber').value;
+   var weight_amount = document.getElementById('weightAmount').value;
+   var queryString = "?date=" + exercise_date ;
+   
+   queryString +=  "&exercise=" + exercise_name + "&sets=" + set_number + "&reps=" + rep_number + "&weight=" + weight_amount;
+   console.log(queryString);
+   // using GEt to send information to the database using the insert file
+   xhttp.open("GET", "insert.php" + queryString, true);
+   xhttp.send(null); 
+}
+</script>
+</body>
+</html>
